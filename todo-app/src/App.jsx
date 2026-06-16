@@ -5,12 +5,10 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App(){
   return (
-    <BrowserRouter>
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/todo" element={<ProtectedRoute><TodoPage /></ProtectedRoute>} />
     </Routes>
-    </BrowserRouter>
   );
 }
 
