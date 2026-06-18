@@ -1,38 +1,84 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import TodoForm from "../components/TodoForm";
 import TodoList from "../components/TodoList";
 
-function TodoPage(){
-    const navigate = useNavigate();
+function TodoPage() {
+  const navigate = useNavigate();
 
-    const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(() => {
+    return JSON.parse(localStorage.getItem("tasks")) || [];
+  });
 
-    const handleLogout = () => {
-        localStorage.removeItem("isLoggedIn");
-        navigate("/");
-    };
+  const [filter, setFilter] = useState("all");
 
-    const addTask = (title) => {
-        const newTask = {
-            id: Date.now(),
-            title: title,
-            done: false,
-        };
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
-        setTasks([...tasks, newTask]);
-    };
+  const addTask = (title) => {
+    setTasks([...tasks, { id: Date.now(), title, done: false }]);
+  };
 
-    return (
-        <div>
-            <h1>To-Do Page</h1>
-            <button onClick={handleLogout}>Logout</button>
-            
-            <TodoForm addTask={addTask} />
-            <p>Total Tasks: {tasks.length}</p>
-            <TodoList tasks={tasks} />
-            
+  const toggleDone = (id) => {
+    setTasks(tasks.map((t) => t.id === id ? { ...t, done: !t.done } : t));
+  };
+
+  const deleteTask = (id) => {
+    setTasks(tasks.filter((t) => t.id !== id));
+  };
+
+  const editTask = (id, newTitle) => {
+    setTasks(tasks.map((t) => t.id === id ? { ...t, title: newTitle } : t));
+  };
+
+  const filteredTasks = tasks.filter((t) => {
+    if (filter === "active") return !t.done;
+    if (filter === "done") return t.done;
+    return true;
+  });
+
+  const logout = () => {
+    localStorage.removeItem("isLoggedIn");
+    navigate("/");
+  };
+
+  return (
+    <div className="center">
+      <div className="card todo-card">
+
+        <h1 className="title">To-Do</h1>
+
+        <div className="form-wrapper">
+          <TodoForm addTask={addTask} />
         </div>
-    );
+
+        <div className="filters">
+          <button className="btn btn-gray" onClick={() => setFilter("all")}>All</button>
+          <button className="btn btn-gray" onClick={() => setFilter("active")}>Active</button>
+          <button className="btn btn-gray" onClick={() => setFilter("done")}>Done</button>
+        </div>
+
+        <p className="muted">
+          Total: {tasks.length} | Completed: {tasks.filter(t => t.done).length}
+        </p>
+
+        <TodoList
+          tasks={filteredTasks}
+          toggleDone={toggleDone}
+          deleteTask={deleteTask}
+          editTask={editTask}
+        />
+
+        <div className="logout">
+          <button className="btn btn-red" onClick={logout}>
+            Logout
+          </button>
+        </div>
+
+      </div>
+    </div>
+  );
 }
+
 export default TodoPage;
