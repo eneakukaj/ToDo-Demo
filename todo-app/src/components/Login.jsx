@@ -23,16 +23,32 @@ function Login(){
     };
 
     return (
-        <div>
-            <h1>Login</h1>
+    <div className="center">
+      <div className="card login-box">
+        <h1 className="title">Login</h1>
 
-            <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-            <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+        <input
+          className="input"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-            <button onClick={handleLogin}>Login</button>
+        <input
+          className="input"
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-            {error && <p style={{color: "red"}}>{error}</p>}
-        </div>
+        <button className="btn btn-green" onClick={handleLogin}>
+          Login
+        </button>
+
+        {error && <p className="muted" style={{ color: "#ef4444" }}>{error}</p>}
+      </div>
+      </div>
     );
 }
 
