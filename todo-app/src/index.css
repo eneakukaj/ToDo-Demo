@@ -27,55 +27,65 @@ body {
 .card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 32px;
+  border-radius: 20px;
+  padding: 40px;
   width: 100%;
-  max-width: 650px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+  max-width: 850px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
 }
 
 .title {
-  font-size: 40px;
+  font-size: 42px;
   font-weight: 800;
   color: var(--green-dark);
-  margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 25px;
 }
 
 .input {
   width: 100%;
-  padding: 12px 14px;
-  margin: 8px 0;
+  padding: 14px 16px;
   border-radius: 12px;
   border: 1px solid var(--border);
-  outline: none;
   font-size: 16px;
-  background: #fff;
+  outline: none;
   transition: 0.2s;
+  margin-right: 10px;
 }
 
 .input:focus {
   border-color: var(--green);
-  box-shadow: 0 0 0 3px rgba(134, 239, 172, 0.3);
+  box-shadow: 0 0 0 4px rgba(134, 239, 172, 0.25);
 }
 
 .btn {
-  padding: 10px 16px;
+  padding: 12px 18px;
   border-radius: 12px;
   cursor: pointer;
-  border: 1px solid var(--green);
-  font-weight: 500;
-  transition: 0.2s;
+  border: 1px solid var(--border);
   font-size: 15px;
+  transition: 0.2s;
+  margin: 5px;
 }
 
 .btn-green {
   background: #fff;
   color: var(--green-dark);
+  border-color: var(--green);
 }
 
 .btn-green:hover {
   background: var(--green);
   color: #fff;
+}
+
+.btn-gray {
+  background: #fff;
+  color: var(--muted);
+}
+
+.btn-gray:hover {
+  background: #f3f4f6;
 }
 
 .btn-red {
@@ -89,25 +99,72 @@ body {
   color: #fff;
 }
 
-.btn-gray {
-  background: #fff;
-  color: var(--muted);
+.login-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  max-width: 420px;
 }
 
-.btn-gray:hover {
-  background: #f3f4f6;
+.todo-card {
+  max-width: 950px;
+  min-height: 700px;
+  padding: 50px;
+  position: relative;
+}
+
+.form-wrapper {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 25px 0;
+}
+
+.filter-btn {
+  background: #fff;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 10px 14px;
+  font-size: 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.filter-btn:hover {
+  border-color: var(--green);
+  color: var(--green-dark);
+}
+
+.filter-btn.active {
+  background: var(--green);
+  color: #fff;
+  border-color: var(--green);
+  transform: scale(1.05);
 }
 
 .item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px;
-  margin-top: 10px;
-  border-radius: 12px;
+  padding: 16px;
+  margin-top: 12px;
+  border-radius: 14px;
   border: 1px solid var(--border);
   background: #fff;
   font-size: 16px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
 }
 
 .muted {
@@ -115,35 +172,63 @@ body {
   font-size: 14px;
 }
 
-.login-box {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.todo-card {
-  max-width: 800px;
-  padding: 40px;
+.popup-error {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  color: #ef4444;
+  border-left: 5px solid #ef4444;
+  border-radius: 12px;
+  padding: 14px 22px;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  animation: popupFade 0.3s ease;
 }
 
-.form-wrapper {
+@keyframes popupFade {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  align-items: center;
+  z-index: 999;
 }
 
-.form-wrapper .btn {
-  margin-left: 10px;
+.modal {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  width: 340px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
-.filters {
+.modal-actions {
   display: flex;
+  gap: 8px;
   justify-content: center;
-  gap: 10px;
-  margin: 15px 0;
+  margin-top: 15px;
 }
 
-.logout {
-  display: flex;
-  justify-content: center;
-  margin-top: 30px;
+.logout-wrapper {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
 }

@@ -21,7 +21,11 @@ function TodoPage() {
   };
 
   const toggleDone = (id) => {
-    setTasks(tasks.map((t) => t.id === id ? { ...t, done: !t.done } : t));
+    setTasks(
+      tasks.map((t) =>
+        t.id === id ? { ...t, done: !t.done } : t
+      )
+    );
   };
 
   const deleteTask = (id) => {
@@ -29,7 +33,11 @@ function TodoPage() {
   };
 
   const editTask = (id, newTitle) => {
-    setTasks(tasks.map((t) => t.id === id ? { ...t, title: newTitle } : t));
+    setTasks(
+      tasks.map((t) =>
+        t.id === id ? { ...t, title: newTitle } : t
+      )
+    );
   };
 
   const filteredTasks = tasks.filter((t) => {
@@ -49,18 +57,34 @@ function TodoPage() {
 
         <h1 className="title">To-Do</h1>
 
-        <div className="form-wrapper">
-          <TodoForm addTask={addTask} />
-        </div>
+        <TodoForm addTask={addTask} />
 
         <div className="filters">
-          <button className="btn btn-gray" onClick={() => setFilter("all")}>All</button>
-          <button className="btn btn-gray" onClick={() => setFilter("active")}>Active</button>
-          <button className="btn btn-gray" onClick={() => setFilter("done")}>Done</button>
+          <button
+            className={`btn filter-btn ${filter === "all" ? "active" : ""}`}
+            onClick={() => setFilter("all")}
+          >
+            All
+          </button>
+
+          <button
+            className={`btn filter-btn ${filter === "active" ? "active" : ""}`}
+            onClick={() => setFilter("active")}
+          >
+            Active
+          </button>
+
+          <button
+            className={`btn filter-btn ${filter === "done" ? "active" : ""}`}
+            onClick={() => setFilter("done")}
+          >
+            Done
+          </button>
         </div>
 
         <p className="muted">
-          Total: {tasks.length} | Completed: {tasks.filter(t => t.done).length}
+          Total: {tasks.length} | Completed:{" "}
+          {tasks.filter((t) => t.done).length}
         </p>
 
         <TodoList
@@ -70,7 +94,7 @@ function TodoPage() {
           editTask={editTask}
         />
 
-        <div className="logout">
+        <div className="logout-wrapper">
           <button className="btn btn-red" onClick={logout}>
             Logout
           </button>
