@@ -3,6 +3,7 @@ import { useState } from "react";
 function TodoItem({ task, toggleDone, deleteTask, editTask }) {
   const [edit, setEdit] = useState(false);
   const [text, setText] = useState(task.title);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   return (
     <div className="item">
@@ -13,15 +14,22 @@ function TodoItem({ task, toggleDone, deleteTask, editTask }) {
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
-          <button
-            className="btn btn-green"
-            onClick={() => {
-              editTask(task.id, text);
-              setEdit(false);
-            }}
-          >
-            Save
-          </button>
+
+          <div className="actions">
+            <button
+              className="btn btn-green"
+              onClick={() => {
+                editTask(task.id, text);
+                setEdit(false);
+              }}
+            >
+              Save
+            </button>
+
+            <button className="btn btn-gray" onClick={() => setEdit(false)}>
+              Cancel
+            </button>
+          </div>
         </>
       ) : (
         <>
@@ -33,8 +41,11 @@ function TodoItem({ task, toggleDone, deleteTask, editTask }) {
             {task.title}
           </span>
 
-          <div>
-            <button className="btn btn-gray" onClick={() => toggleDone(task.id)}>
+          <div className="actions">
+            <button
+              className="btn btn-gray"
+              onClick={() => toggleDone(task.id)}
+            >
               {task.done ? "Undo" : "Done"}
             </button>
 
@@ -42,11 +53,42 @@ function TodoItem({ task, toggleDone, deleteTask, editTask }) {
               Edit
             </button>
 
-            <button className="btn btn-red" onClick={() => deleteTask(task.id)}>
-              X
+            <button
+              className="btn btn-red"
+              onClick={() => setConfirmDelete(true)}
+            >
+              Delete
             </button>
           </div>
         </>
+      )}
+
+      {confirmDelete && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>Delete Task</h3>
+            <p>Are you sure?</p>
+
+            <div className="modal-actions">
+              <button
+                className="btn btn-red"
+                onClick={() => {
+                  deleteTask(task.id);
+                  setConfirmDelete(false);
+                }}
+              >
+                Delete
+              </button>
+
+              <button
+                className="btn btn-gray"
+                onClick={() => setConfirmDelete(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

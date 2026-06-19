@@ -4,7 +4,7 @@ function TodoForm({ addTask }) {
   const [title, setTitle] = useState("");
 
   return (
-    <div style={{ display: "flex", width: "100%" }}>
+    <div className="form-wrapper">
       <input
         className="input"
         value={title}

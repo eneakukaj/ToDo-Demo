@@ -4,13 +4,20 @@ import { useNavigate } from "react-router-dom";
 function Login(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+    const [showError, setShowError] = useState(false);
 
     const navigate = useNavigate();
 
+    const showErrorPopup = () => {
+    setShowError(true);
+
+    setTimeout(() => {
+    setShowError(false);
+  }, 2000);
+};
     const handleLogin = () => {
         if(!email || !password){
-            setError("Please fill out all fields");
+            showErrorPopup();
             return;
         }
 
@@ -18,7 +25,7 @@ function Login(){
             localStorage.setItem("isLoggedIn", "true");
             navigate("/todo");
         }else {
-            setError("Invalid credentials");
+            showErrorPopup();
         }
     };
 
@@ -45,9 +52,13 @@ function Login(){
         <button className="btn btn-green" onClick={handleLogin}>
           Login
         </button>
-
-        {error && <p className="muted" style={{ color: "#ef4444" }}>{error}</p>}
       </div>
+      
+      {showError && (
+        <div className="popup-error">
+          Invalid credentials
+        </div>
+      )}
       </div>
     );
 }
